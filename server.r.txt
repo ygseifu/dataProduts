@@ -1,0 +1,30 @@
+library(shiny)
+
+ps <- read.csv("PS Alarms.csv")
+ps$Alarm.ID <- as.factor(ps$Alarm.ID)
+psd <- split(ps, ps$Alarm.Source)
+
+shinyServer(
+  function(input, output) {
+    datasetInput <- reactive({
+      switch(input$dataset,
+             "SGSNMME_01.HW.NF.AA" = 1,
+             "SGSNMME_02.HW.MW.AA" = 2,
+             "SGSNMME_03.HW.KK.AA" = 3,
+             "All" = 0)
+    })
+    
+    output$newPlot <- renderPlot({
+      if(datasetInput() == 0){
+        plot(ps$Alarm.ID, main="Alarms on SGSNMME", xlab='Alarm ID', ylab='Count', ylim=c(0,2000))
+        text(40, 40, labels = "I mean test!")
+      }
+      else{
+        plot(psd[[datasetInput()]]$Alarm.ID, main="Alarms on SGSNMME",xlab='Alarm ID',
+             ylab='Count', ylim=c(0,2000))
+        
+      }
+    })
+    
+  }
+)

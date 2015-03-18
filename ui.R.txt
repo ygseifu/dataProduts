@@ -1,0 +1,33 @@
+shinyUI(pageWithSidebar(
+  
+  headerPanel("PS Network Alarms"),
+  sidebarPanel(
+    selectInput("dataset", "Choose a Network Element:", 
+                choices = c("SGSNMME_01.HW.NF.AA", "SGSNMME_02.HW.MW.AA",
+                            "SGSNMME_03.HW.KK.AA", "All"))
+ 
+  ),  
+  mainPanel(
+    tabsetPanel(
+      tabPanel("Application Plot", plotOutput("newPlot")),
+      tabPanel("Help", h2(" How to use the PS Alarms Application"),
+               h6("Yonatan Geremew"),
+               h2(""),
+               h4("This simple application is designed to compare the counts 
+                  of alarms between differenet Packet Switching (PS) network elements 
+                  of our mobile network. This comparison helps to observe, set priority
+                  and rectify the problems on the data service of the mobile network"),
+               h2(""),
+               h4("There are totally four choices on the dropdown list
+                  shown on the left side of this page. The three are actual SGSNMME network
+                  elements that are serving the data customers, you can choose one of them
+                  to see how many and which alarms are existing in the particular network
+                  element. The final choice labelled 'ALL' can be chosen to see the total
+                  SGSNMME alarms within the PS network."),
+               h2(""),
+               h4("Enjoy!")
+               )
+      )
+    
+  )
+))
